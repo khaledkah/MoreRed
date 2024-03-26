@@ -1,15 +1,6 @@
 # The following script is adapted from SchNetPack's cli.py script.
 # https://github.com/atomistic-machine-learning/schnetpack
 
-import pyrootutils
-
-root = pyrootutils.setup_root(
-    search_from=__file__,
-    indicator=[".git", "pyproject.toml"],
-    pythonpath=True,
-    dotenv=True,
-)
-
 import logging
 import os
 import socket
