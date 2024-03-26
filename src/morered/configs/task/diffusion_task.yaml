@@ -1,0 +1,12 @@
+defaults:
+  - optimizer: adam
+  - scheduler: reduce_on_plateau
+
+_target_: morered.DiffusionTask
+warmup_steps: 0
+skip_exploding_batches: True
+include_l0: False
+time_key: ${globals.time_target_key}
+noise_key: ${globals.noise_target_key}
+noise_pred_key: ${globals.noise_output_key}
+outputs: ???

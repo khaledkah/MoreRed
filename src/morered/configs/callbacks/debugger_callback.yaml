@@ -1,0 +1,3 @@
+debugger_callback:
+  _target_: morered.OutputWriterCallback
+  output_dir: 'model_outputs/'

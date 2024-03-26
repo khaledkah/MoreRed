@@ -1,0 +1,20 @@
+defaults:
+  - qm9
+
+_target_: morered.datasets.QM9Filtered
+
+batch_size: 128
+n_atoms_allowed: null
+shuffle_train: True
+permute_indices: False
+num_train: 55000
+num_val: 10000
+num_test: 10000
+num_workers: 4
+remove_uncharacterized: True
+n_overfit_molecules: null
+distance_unit: Ang
+pin_memory: True
+indices_path: ${run.data_dir}/n_atoms_indices.pkl
+load_properties:
+  - energy_U0

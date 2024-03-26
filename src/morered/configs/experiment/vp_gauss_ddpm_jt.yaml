@@ -1,0 +1,120 @@
+# @package _global_
+
+defaults:
+  - override /model: nnp
+  - override /data: qm7x
+  - override /task: diffusion_task
+
+run:
+  experiment: vp_gauss_ddpm_jt
+
+globals:
+  cutoff: 5.
+  lr: 1e-4
+  n_atom_basis: 256
+  noise_target_key: eps
+  noise_output_key: eps_pred
+  time_target_key: t
+  time_output_key: t_pred
+  
+  noise_schedule:
+    _target_: morered.noise_schedules.PolynomialSchedule
+    T: 1000
+    s: 1e-5
+    dtype: float64
+    variance_type: lower_bound
+
+  diffusion_process:
+    _target_: morered.processes.VPGaussianDDPM
+    noise_schedule: ${globals.noise_schedule}
+    invariant: True 
+    noise_key: ${globals.noise_target_key}
+    dtype: float64
+
+trainer:
+  precision: 32
+  gradient_clip_val: 0.5
+
+data:
+  batch_size: 128
+  num_workers: 4
+  pin_memory: True
+  transforms:
+    - _target_: schnetpack.transform.CastTo64
+    - _target_: schnetpack.transform.SubtractCenterOfGeometry
+
+    - _target_: morered.transform.Diffuse
+      diffuse_property: _positions
+      diffusion_process: ${globals.diffusion_process}
+      T: ${globals.noise_schedule.T}
+      time_key: ${globals.time_target_key}
+
+    - _target_: schnetpack.transform.MatScipyNeighborList
+      cutoff: ${globals.cutoff}
+    - _target_: schnetpack.transform.CastTo32
+
+model:
+  representation:
+    radial_basis:
+      _target_: schnetpack.nn.radial.GaussianRBF
+      n_rbf: 20
+      cutoff: ${globals.cutoff}
+    n_atom_basis: ${globals.n_atom_basis}
+  output_modules:
+    - _target_: morered.model.heads.DiffusionTime
+      n_in: ${globals.n_atom_basis}
+      n_hidden: null
+      n_layers: 3
+      output_key: ${globals.time_output_key}
+      aggregation_mode: null
+      detach_representation: False
+    - _target_: morered.model.heads.TimeAwareEquivariant
+      n_in: ${globals.n_atom_basis}
+      n_hidden: null
+      n_layers: 3
+      output_key: ${globals.noise_output_key}
+      include_time: True
+      time_head: ${model.output_modules.0}
+      detach_time_head: False
+      time_key: ${globals.time_output_key}
+  do_postprocessing: True
+  postprocessors:
+    - _target_: morered.transform.BatchSubtractCenterOfMass
+      name: ${globals.noise_output_key}
+    - _target_: schnetpack.transform.CastTo64
+
+task:
+  diffuse_property: _positions
+  skip_exploding_batches: True
+  include_l0: False
+  outputs:
+    - _target_: schnetpack.task.ModelOutput
+      name: ${globals.time_output_key}
+      target_property: ${globals.time_target_key}
+      loss_fn:
+        _target_: torch.nn.MSELoss
+      metrics:
+        mse:
+          _target_: torchmetrics.regression.MeanSquaredError
+          squared: True
+      loss_weight: 0.1
+    - _target_: morered.task.DiffModelOutput
+      name: ${globals.noise_output_key}
+      target_property: ${globals.noise_target_key}
+      loss_fn:
+        _target_: torch.nn.MSELoss
+      metrics:
+        mse:
+          _target_: torchmetrics.regression.MeanSquaredError
+          squared: True
+      loss_weight: 0.9
+      nll_metric: null
+        # _target_: morered.optimization.metrics.NLL
+        # noise_schedule: ${globals.noise_schedule}
+        # diffuse_property: _positions
+        # include_l0: True
+        # include_lT: True
+        # training: False
+        # time_key: ${globals.time_target_key}
+        # noise_key: ${globals.noise_target_key}
+        # noise_pred_key: ${globals.noise_output_key}

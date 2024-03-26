@@ -1,0 +1,20 @@
+defaults:
+  - custom
+
+_target_: morered.datasets.QM7X
+
+datapath: ${run.data_dir}/qm7x.db  # data_dir is specified in train.yaml
+raw_data_path: ${run.data_dir}
+remove_duplicates: True
+only_equilibrium: True
+batch_size: 128
+num_train: 4500
+num_val: 1250
+num_workers: 4
+
+# convert to typically used units
+distance_unit: Ang
+property_units:
+  energy: eV
+load_properties:
+  - energy

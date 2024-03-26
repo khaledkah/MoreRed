@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+import morered.train as train
+
+if __name__ == "__main__":
+    train.train()
