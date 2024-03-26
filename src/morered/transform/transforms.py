@@ -58,7 +58,7 @@ class BatchSubtractCenterOfMass(trn.Transform):
         # use the first dimensions if the property has more than 'dim' dimensions.
         else:
             x = inputs[self.name][:, : self.dim]
-            h = inputs[self.name][:, self.dim:]
+            h = inputs[self.name][:, self.dim :]
             x_cent = batch_center_systems(
                 x, inputs[properties.idx_m], inputs[properties.n_atoms]
             )
@@ -140,12 +140,10 @@ class Diffuse(trn.Transform):
         outputs.update(tmp)
 
         # broadcast the diffusion time step to all atoms.
-        outputs[self.time_key] = t.repeat(
-            inputs[properties.n_atoms]
-        )
+        outputs[self.time_key] = t.repeat(inputs[properties.n_atoms])
 
         # normalize the time step to [0,1].
-        outputs[self.time_key] = outputs[self.time_key].float() / (self.T-1)
+        outputs[self.time_key] = outputs[self.time_key].float() / (self.T - 1)
 
         # update the returned inputs.
         inputs.update(outputs)

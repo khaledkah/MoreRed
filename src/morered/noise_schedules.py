@@ -47,7 +47,7 @@ def polynomial_decay(
         power: power of the polynomial.
     """
     # compute alphas_bar
-    t = np.linspace(0., 1., timesteps + 1, dtype=np.float64)
+    t = np.linspace(0.0, 1.0, timesteps + 1, dtype=np.float64)
     alphas_bar = (1 - np.power(t, power)) ** 2
 
     # clip for more stable noise schedule
@@ -73,8 +73,8 @@ def cosine_decay(
         clip_value: minimum value to clip to.
     """
     # compute alphas_bar
-    t = np.linspace(0., 1., timesteps + 1, dtype=np.float64)
-    f_t = np.cos((t ** v + s) / (1 + s) * np.pi * 0.5) ** 2
+    t = np.linspace(0.0, 1.0, timesteps + 1, dtype=np.float64)
+    f_t = np.cos((t**v + s) / (1 + s) * np.pi * 0.5) ** 2
     alphas_bar = f_t / f_t[0]
 
     # clip for more stable noise schedule
