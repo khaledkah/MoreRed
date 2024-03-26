@@ -31,16 +31,12 @@ setup(
     ],
     python_requires=">=3.8",
     include_package_data=True,
-    install_requires=[
-        "schnetpack>=2.0.3",
-        "progressbar",
-        "pyrootutils"
-    ],
+    install_requires=["schnetpack>=2.0.3", "progressbar", "pyrootutils"],
     license="MIT",
     description="MoreRed - Molecular Relaxation with Reverse Diffusion.",
     long_description="""
         MoreRed is an extension of SchNetPack that implements
         diffusion models for molecular structures. Its functionality
         encompasses geometry optimization and the generation of novel
-        structures based on chemical compositions. """
+        structures based on chemical compositions. """,
 )
