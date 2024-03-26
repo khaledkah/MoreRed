@@ -9,8 +9,8 @@ defaults:
       - earlystopping
       - lrmonitor
       - ema
-  - sampler: null
-  - task: default_task
+  # - sampler: null
+  - task: diffusion_task
   - model: null
   - data: custom
   - logger: tensorboard
@@ -34,10 +34,10 @@ hydra:
     output_subdir: null
 
     help:
-      app_name: SchNetPack Train
+      app_name: MoreRed Train
 
       template: |-
-        SchNetPack
+        MoreRed
 
         == Configuration groups ==
         Compose your configuration from those groups (db=mysql)
@@ -52,11 +52,11 @@ hydra:
         -------
 
         You can overide the config file with a pre-defined experiment config
-        > spktrain experiment=qm9
+        > mrdtrain experiment=vp_gauss_ddpm_jt
 
         or your own experiment config, which needs to be located in a directory called `experiment` in the config search
         path, e.g.,
-        > spktrain --config-dir=./my_configs experiment=my_experiment
+        > mrdtrain --config-dir=./my_configs experiment=my_experiment
 
         with your experiment config located at `./my_configs/experiment/my_experiment.yaml`.
         Your current working directory as well as an optional config subdirectory are automatically in the config
@@ -64,6 +64,6 @@ hydra:
         or `./configs/experiment`.
 
         You can also override everything with the command line, for example:
-        > spktrain experiment=qm9 data_dir=/path/to/datadir data.batch_size=50
+        > mrdtrain experiment=vp_gauss_ddpm_jt data_dir=</path/to/datadir> data.batch_size=50
 
         ${hydra.help.footer}
