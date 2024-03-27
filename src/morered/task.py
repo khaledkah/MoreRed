@@ -3,10 +3,9 @@ import logging
 from typing import Dict, Optional
 
 import torch
+from schnetpack.task import AtomisticTask, ModelOutput, UnsupervisedModelOutput
 from torch import nn
 from torchmetrics import Metric
-
-from schnetpack.task import AtomisticTask, ModelOutput, UnsupervisedModelOutput
 
 log = logging.getLogger(__name__)
 

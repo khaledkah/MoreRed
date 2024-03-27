@@ -1,15 +1,11 @@
 from typing import Dict
 
 import torch
+from schnetpack import properties
 from torchmetrics import Metric
 
-from schnetpack import properties
 from morered.noise_schedules import NoiseSchedule
-from morered.optimization.losses import (
-    decoder_gaussian_nll,
-    l_t_kl,
-    prior_l_T_kl,
-)
+from morered.optimization.losses import decoder_gaussian_nll, l_t_kl, prior_l_T_kl
 
 
 class NLL(Metric):

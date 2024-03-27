@@ -6,9 +6,9 @@ import numpy as np
 import torch
 from pytorch_lightning import LightningModule
 from pytorch_lightning.callbacks import Callback
+from schnetpack import properties
 from torch import nn
 
-from schnetpack import properties
 from morered.sampling import Sampler
 from morered.utils import batch_rmsd, check_validity, generate_bonds_data
 

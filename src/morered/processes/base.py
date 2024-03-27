@@ -3,25 +3,28 @@ from typing import Any, Optional
 
 import torch
 
-__all__ = ["ForwardDiffusion"]
+__all__ = ["DiffusionProcess"]
 
 
-class ForwardDiffusion(ABC):
+class DiffusionProcess(ABC):
     """
-    Abstract base class to define the forward diffusion processes.
+    Abstract base class to define diffusion processes.
     """
 
     def __init__(
         self,
-        invariant: bool = False,
+        name: Optional[str] = None,
+        invariant: bool = True,
         dtype: torch.dtype = torch.float64,
     ):
         """
         Args:
-            invariant: invariant: if True, apply invariance constraints for symmetries.
-                        e.g. For atoms positions this would be to force a zero CoG.
+            name: name of the diffusion process. Default is None.
+            invariant: invariant: if True, force invariance to E(3) symmetries.
+                        e.g. For atoms positions this would be to force a zero center.
             dtype: data type to use for computational accuracy.
         """
+        self.name = name
         self.invariant = invariant
         self.dtype = dtype
 
@@ -31,21 +34,9 @@ class ForwardDiffusion(ABC):
             elif dtype == "float32":
                 self.dtype = torch.float32
             else:
-                raise ValueError(f"data type must be float32 or float64, got {dtype}")
-
-    @abstractmethod
-    def sample_prior(
-        self, x: torch.Tensor, idx_m: Optional[torch.Tensor], **kwargs
-    ) -> torch.Tensor:
-        """
-        Samples from the prior distribution p(x_T).
-
-        Args:
-            x: input tensor, e.g. to infer shape.
-            idx_m: same as ``proporties.idx_m`` to map each row to its system.
-            **kargs: additional keyword arguments.
-        """
-        raise NotImplementedError
+                raise ValueError(
+                    f"dtype must be float32 or float64, got {dtype}"
+                )
 
     @abstractmethod
     def diffuse(
@@ -63,8 +54,8 @@ class ForwardDiffusion(ABC):
 
         Args:
             x_0: input tensor x_0 ~ p_data to be diffused.
-            idx_m: same as ``proporties.idx_m`` to map each row to its system.
-                Set to None if one system or no invariance needed.
+            idx_m: same as ``proporties.idx_m`` to assign each row to its system.
+                    Set to None if one system or no invariance needed.
             t: time steps.
             return_dict: if True, return results under a dictionary of tensors.
             output_key: key to store the diffused x_t.
@@ -72,8 +63,40 @@ class ForwardDiffusion(ABC):
         """
         raise NotImplementedError
 
-    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+    @abstractmethod
+    def reverse_step(
+        self,
+        x_t: torch.Tensor,
+        model_out: Any,
+        idx_m: Optional[torch.Tensor],
+        t: torch.Tensor,
+        **kwargs,
+    ) -> torch.Tensor:
         """
-        Diffuse is default object call.
+        Performs one reverse diffusion step to sample x_t-i ~ p(x_t-i|x_t), for i > 0.
+
+        Args:
+            x_t: input tensor x_t ~ p_t at diffusion step t.
+            model_out: output of the denoiser model.
+            idx_m: same as ``proporties.idx_m`` to assign each row of x to its system.
+                Set to None if one system or no invariance needed.
+            t: time steps.
+            **kwargs: additional keyword arguments for subclasses.
         """
-        return self.diffuse(*args, **kwargs)
+        raise NotImplementedError
+
+    @abstractmethod
+    def sample_prior(
+        self, x: torch.Tensor, idx_m: Optional[torch.Tensor], **kwargs
+    ) -> torch.Tensor:
+        """
+        Samples from the prior distribution p(x_T).
+        The endpoint of the forward diffusion process
+        and the starting point of the reverse process.
+
+        Args:
+            x: dummy input tensor, e.g. to infer shape.
+            idx_m: same as ``proporties.idx_m`` to assign each row to its system.
+            **kargs: additional keyword arguments.
+        """
+        raise NotImplementedError

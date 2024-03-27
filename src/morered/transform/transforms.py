@@ -4,7 +4,8 @@ from typing import Dict, Optional
 import schnetpack.transform as trn
 import torch
 from schnetpack import properties
-from morered.processes.base import ForwardDiffusion
+
+from morered.processes.base import DiffusionProcess
 from morered.utils import batch_center_systems
 
 __all__ = ["BatchSubtractCenterOfMass", "Diffuse"]
@@ -80,7 +81,7 @@ class Diffuse(trn.Transform):
     def __init__(
         self,
         diffuse_property: str,
-        diffusion_process: ForwardDiffusion,
+        diffusion_process: DiffusionProcess,
         T: int,
         output_key: Optional[str] = None,
         time_key: str = "t",

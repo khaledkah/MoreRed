@@ -1,6 +1,5 @@
-from typing import List, Optional, Union
-
 import math
+from typing import List, Optional, Union
 
 import torch
 from schnetpack.data import SplittingStrategy
