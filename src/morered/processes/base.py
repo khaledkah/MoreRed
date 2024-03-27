@@ -34,9 +34,7 @@ class DiffusionProcess(ABC):
             elif dtype == "float32":
                 self.dtype = torch.float32
             else:
-                raise ValueError(
-                    f"dtype must be float32 or float64, got {dtype}"
-                )
+                raise ValueError(f"dtype must be float32 or float64, got {dtype}")
 
     @abstractmethod
     def diffuse(
