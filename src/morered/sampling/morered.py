@@ -33,7 +33,7 @@ class MoreRed(Sampler):
             diffusion_process: The diffusion processe to sample the target property.
             denoiser: denoiser or path to denoiser to use for the reverse process.
             time_key: the key for the time.
-            noise_pred_key: the key for the noise prediction.
+            noise_pred_key: the key for the noise predictions.
             time_pred_key: the key for the time prediction.
             convergence_step: The time step at which the reverse process converge.
         """
