@@ -100,7 +100,8 @@ class SamplerCallback(Callback):
     def __init__(
         self,
         sampler: Sampler,
-        t: Optional[Union[int, torch.Tensor]] = None,
+        t: Optional[int] = None,
+        max_steps: Optional[int] = None,
         sample_prior: bool = True,
         name: str = "sampling",
         store_path: str = "samples",
@@ -115,6 +116,7 @@ class SamplerCallback(Callback):
         Args:
             sampler: sampler to be used for sampling/denoising.
             t: time step to start denoising. Defaults noise to start from prior.
+            max_steps: maximum number of reverse steps when using MoreRed.
             sample_prior: whether to sample from the prior or use input as start sample.
             name: name of the callback.
             store_path: path to store the results and samples.
@@ -129,6 +131,7 @@ class SamplerCallback(Callback):
         super().__init__()
         self.sampler = sampler
         self.t = t
+        self.max_steps = max_steps
         self.sample_prior = sample_prior
         self.name = name
         self.store_path = store_path
@@ -138,9 +141,6 @@ class SamplerCallback(Callback):
         self.log_rmsd = log_rmsd
         self.log_validity = log_validity
         self.bonds_data = generate_bonds_data(bonds_data_path)
-
-        if isinstance(self.t, int):
-            self.t = torch.tensor([self.t])
 
         if not os.path.exists(self.store_path):
             os.makedirs(self.store_path)
@@ -158,9 +158,14 @@ class SamplerCallback(Callback):
         # update the sampling model
         self.sampler.update_model(model)
 
+        # sample from the prior
+        if self.sample_prior:
+            x_t = self.sampler.sample_prior(batch, self.t)
+            batch.update(x_t)
+
         # sample / denoise
         samples, num_steps, hist = self.sampler(
-            batch, self.t, self.sample_prior  # type: ignore
+            batch, t=self.t, max_steps=self.max_steps
         )
 
         # add important properties to save along with the sampled ones
@@ -186,9 +191,9 @@ class SamplerCallback(Callback):
         results = {
             "samples": samples,
             "hist": hist,
-            "num_steps": num_steps.cpu()
-            if isinstance(num_steps, torch.Tensor)
-            else num_steps,
+            "num_steps": (
+                num_steps.cpu() if isinstance(num_steps, torch.Tensor) else num_steps
+            ),
             "t": self.t.cpu() if isinstance(self.t, torch.Tensor) else self.t,
         }
 
@@ -255,14 +260,14 @@ class SamplerCallback(Callback):
             connected = np.array(validity_res["connected"])
             connected_wo_h = np.array(validity_res["connected_wo_h"])
             results["bonds"] = validity_res["bonds"]
-            results["connectivity"] = torch.from_numpy(connected).to("cpu")
-            results["stable_atoms"] = torch.from_numpy(stable_ats).to("cpu")
-            results["stable_molecules"] = torch.from_numpy(stable_mols).to("cpu")
-            results["stable_atoms_wo_h"] = torch.from_numpy(stable_ats_wo_h).to("cpu")
+            results["connectivity"] = torch.from_numpy(connected).cpu()
+            results["stable_atoms"] = torch.from_numpy(stable_ats).cpu()
+            results["stable_molecules"] = torch.from_numpy(stable_mols).cpu()
+            results["stable_atoms_wo_h"] = torch.from_numpy(stable_ats_wo_h).cpu()
             results["stable_molecules_wo_h"] = torch.from_numpy(stable_mols_wo_h).to(
                 "cpu"
             )
-            results["connectivity_wo_h"] = torch.from_numpy(connected_wo_h).to("cpu")
+            results["connectivity_wo_h"] = torch.from_numpy(connected_wo_h).cpu()
 
             # infer metrics from validity results
             metrics = {
@@ -295,7 +300,7 @@ class SamplerCallback(Callback):
                 else batch[properties.R]
             )
 
-            res_rmsd = batch_rmsd(reference_R, results["samples"]).to("cpu")
+            res_rmsd = batch_rmsd(reference_R, results["samples"]).cpu()
 
             results["rmsd"] = res_rmsd
             metrics["rmsd"] = res_rmsd.mean()

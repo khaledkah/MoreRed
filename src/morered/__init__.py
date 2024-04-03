@@ -5,6 +5,8 @@ from morered import (
     noise_schedules,
     optimization,
     transform,
+    sampling,
+    callbacks,
     utils,
 )
 from morered.task import *

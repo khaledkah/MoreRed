@@ -4,9 +4,10 @@ defaults:
   - override /model: nnp
   - override /data: qm7x
   - override /task: diffusion_task
+  - override /sampler: ddpm
 
 run:
-  experiment: vp_gauss_ddpm_jt
+  experiment: vp_gauss_ddpm
 
 globals:
   cutoff: 5.
@@ -15,7 +16,6 @@ globals:
   noise_target_key: eps
   noise_output_key: eps_pred
   time_target_key: t
-  time_output_key: t_pred
   
   noise_schedule:
     _target_: morered.noise_schedules.PolynomialSchedule
@@ -46,7 +46,6 @@ data:
     - _target_: morered.transform.Diffuse
       diffuse_property: _positions
       diffusion_process: ${globals.diffusion_process}
-      T: ${globals.noise_schedule.T}
       time_key: ${globals.time_target_key}
 
     - _target_: schnetpack.transform.MatScipyNeighborList
@@ -61,22 +60,15 @@ model:
       cutoff: ${globals.cutoff}
     n_atom_basis: ${globals.n_atom_basis}
   output_modules:
-    - _target_: morered.model.heads.DiffusionTime
-      n_in: ${globals.n_atom_basis}
-      n_hidden: null
-      n_layers: 3
-      output_key: ${globals.time_output_key}
-      aggregation_mode: null
-      detach_representation: False
     - _target_: morered.model.heads.TimeAwareEquivariant
       n_in: ${globals.n_atom_basis}
       n_hidden: null
       n_layers: 3
       output_key: ${globals.noise_output_key}
       include_time: True
-      time_head: ${model.output_modules.0}
+      time_head: null
       detach_time_head: False
-      time_key: ${globals.time_output_key}
+      time_key: ${globals.time_target_key}
   do_postprocessing: True
   postprocessors:
     - _target_: morered.transform.BatchSubtractCenterOfMass
@@ -88,16 +80,6 @@ task:
   skip_exploding_batches: True
   include_l0: False
   outputs:
-    - _target_: schnetpack.task.ModelOutput
-      name: ${globals.time_output_key}
-      target_property: ${globals.time_target_key}
-      loss_fn:
-        _target_: torch.nn.MSELoss
-      metrics:
-        mse:
-          _target_: torchmetrics.regression.MeanSquaredError
-          squared: True
-      loss_weight: 0.1
     - _target_: morered.task.DiffModelOutput
       name: ${globals.noise_output_key}
       target_property: ${globals.noise_target_key}
@@ -107,7 +89,7 @@ task:
         mse:
           _target_: torchmetrics.regression.MeanSquaredError
           squared: True
-      loss_weight: 0.9
+      loss_weight: 1.0
       nll_metric: null
         # _target_: morered.optimization.metrics.NLL
         # noise_schedule: ${globals.noise_schedule}
@@ -118,3 +100,11 @@ task:
         # time_key: ${globals.time_target_key}
         # noise_key: ${globals.noise_target_key}
         # noise_pred_key: ${globals.noise_output_key}
+
+sampler:
+  denoiser: null
+
+callbacks:
+  sampling:
+    t: null
+    max_steps: null

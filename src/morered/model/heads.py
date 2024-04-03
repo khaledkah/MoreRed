@@ -236,7 +236,7 @@ class DiffusionTime(nn.Module):
             n_hidden=n_hidden,
             n_layers=n_layers,
             activation=activation,
-            aggregation_mode=aggregation_mode,  # type: ignore
+            aggregation_mode=aggregation_mode,
             output_key=self.output_key,
             per_atom_output_key=self.output_key,
         )

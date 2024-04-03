@@ -37,6 +37,31 @@ class DiffusionProcess(ABC):
                 raise ValueError(f"dtype must be float32 or float64, got {dtype}")
 
     @abstractmethod
+    def get_T(self) -> int:
+        """
+        Returns the total number of diffusion steps T.
+        """
+        raise NotImplementedError
+
+    def normalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Normalizes the time t to [0, 1].
+
+        Args:
+            t: time steps.
+        """
+        raise NotImplementedError
+
+    def unnormalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Un-normalizes the time t to [0, T-1].
+
+        Args:
+            t: normalized time steps as float in [0, 1].
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def diffuse(
         self,
         x_0: torch.Tensor,

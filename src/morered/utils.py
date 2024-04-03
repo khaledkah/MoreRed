@@ -4,14 +4,14 @@ import pickle
 from typing import Dict, Optional
 
 import numpy as np
-import schnetpack.transform as trn
 import torch
 from ase import Atoms, build
 from ase.data import chemical_symbols, covalent_radii
-from schnetpack import properties
-from schnetpack.data.loader import _atoms_collate_fn
 from tqdm import tqdm
 
+import schnetpack.transform as trn
+from schnetpack import properties
+from schnetpack.data.loader import _atoms_collate_fn
 from morered.bonds import allowed_bonds_dict, bonds1, bonds2, bonds3
 
 

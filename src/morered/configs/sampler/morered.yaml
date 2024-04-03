@@ -1,0 +1,13 @@
+_target_: morered.sampling.MoreRed
+diffusion_process: ${globals.diffusion_process}
+denoiser: ???
+time_key: ${globals.time_target_key}
+noise_pred_key: ${globals.noise_output_key}
+time_pred_key: ${globals.time_output_key}
+convergence_step: 0
+cutoff: ${globals.cutoff}
+recompute_neighbors: False
+save_progress: False
+progress_stride: 1
+results_on_cpu: True
+device: null

@@ -209,6 +209,33 @@ class NoiseSchedule(nn.Module):
             2 * self.sigmas_square * self.alphas * self.betas_bar
         )
 
+    def normalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Normalizes the time t to [0, 1].
+
+        Args:
+            t: time steps.
+        """
+        if (t < 0).any() or (t >= self.T).any():
+            raise ValueError(
+                "t must be between 0 and T-1. This may be due to rounding errors. "
+                "The indexing of the noise schedule starts with alpha_bar_1 at idnex 0."
+            )
+
+        return t.float() / (self.T - 1)
+
+    def unnormalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Un-normalizes the time t to [0, T-1].
+
+        Args:
+            t: normalized time steps.
+        """
+        if (t < 0.0).any() or (t > 1.0).any():
+            raise ValueError("t must be flaot between 0 and 1.")
+
+        return torch.round(t.to(torch.double) * (self.T - 1)).long()
+
     def forward(self, t: torch.Tensor, keys: list = []) -> Dict[str, torch.Tensor]:
         """
         Query the noise parameters at timestep t.
@@ -226,7 +253,7 @@ class NoiseSchedule(nn.Module):
 
         # convert to integer and numpy
         if t.dtype in [torch.float, torch.double]:
-            t = torch.round(t.to(torch.double) * (self.T - 1)).long()
+            t = self.unnormalize_time(t)
 
         t = t.to("cpu")
 

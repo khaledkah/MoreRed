@@ -1,0 +1,42 @@
+# @package _global_
+
+defaults:
+  - vp_gauss_ddpm
+  - override /callbacks:
+    - checkpoint
+    - earlystopping
+    - lrmonitor
+    - ema
+
+run:
+  experiment: vp_gauss_time_predictor
+
+globals:
+  time_output_key: t_pred
+
+model:
+  output_modules:
+    - _target_: morered.model.heads.DiffusionTime
+      n_in: ${globals.n_atom_basis}
+      n_hidden: null
+      n_layers: 3
+      output_key: ${globals.time_output_key}
+      aggregation_mode: null
+      detach_representation: False
+  postprocessors:
+    - _target_: schnetpack.transform.CastTo64
+
+task:
+  outputs:
+    - _target_: schnetpack.task.ModelOutput
+      name: ${globals.time_output_key}
+      target_property: ${globals.time_target_key}
+      loss_fn:
+        _target_: torch.nn.MSELoss
+      metrics:
+        mse:
+          _target_: torchmetrics.regression.MeanSquaredError
+          squared: True
+      loss_weight: 1.0
+
+sampler: null

@@ -1,0 +1,5 @@
+# @package _global_
+
+defaults:
+  - vp_gauss_morered_jt
+  - override /data: qm9_filtered

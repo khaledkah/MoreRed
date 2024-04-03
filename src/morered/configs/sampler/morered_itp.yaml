@@ -1,0 +1,4 @@
+defaults:
+  - morered_as
+
+_target_: morered.sampling.MoreRedITP

@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Dict, Optional, Tuple, Union, Any
+from typing import Dict, Optional, Tuple, Union
 
 import torch
 
@@ -89,6 +89,30 @@ class GaussianDDPM(DiffusionProcess):
             t: current time steps.
         """
         raise NotImplementedError
+
+    def get_T(self) -> int:
+        """
+        Returns the total number of diffusion steps T.
+        """
+        return self.noise_schedule.T
+
+    def normalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Normalizes the time t to [0, 1].
+
+        Args:
+            t: time steps as integer in [0, T-1].
+        """
+        return self.noise_schedule.normalize_time(t)
+
+    def unnormalize_time(self, t: torch.Tensor) -> torch.Tensor:
+        """
+        Un-normalizes the time t to [0, T-1].
+
+        Args:
+            t: normalized time steps as float in [0, 1].
+        """
+        return self.noise_schedule.unnormalize_time(t)
 
     def forward_step(
         self,
@@ -189,7 +213,7 @@ class GaussianDDPM(DiffusionProcess):
     def reverse_step(
         self,
         x_t: torch.Tensor,
-        model_out: Any,
+        model_out: Union[torch.Tensor, Dict[str, torch.Tensor]],
         idx_m: Optional[torch.Tensor],
         t: torch.Tensor,
         **kwargs,

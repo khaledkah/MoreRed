@@ -9,7 +9,8 @@ defaults:
       - earlystopping
       - lrmonitor
       - ema
-  # - sampler: null
+      - sampling
+  - sampler: null
   - task: diffusion_task
   - model: null
   - data: custom

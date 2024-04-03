@@ -1,0 +1,15 @@
+sampling:
+    _target_: morered.callbacks.SamplerCallback
+    sampler: ${sampler}
+    name: sampling
+    t: ???
+    max_steps: ???
+    sample_prior: True
+    store_path: samples
+    every_n_batchs: 1
+    every_n_epochs: 200
+    start_epoch: 1
+    log_rmsd: False
+    log_validity: True
+    bonds_data_path: null
+

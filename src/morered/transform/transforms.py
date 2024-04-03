@@ -82,7 +82,6 @@ class Diffuse(trn.Transform):
         self,
         diffuse_property: str,
         diffusion_process: DiffusionProcess,
-        T: int,
         output_key: Optional[str] = None,
         time_key: str = "t",
     ):
@@ -90,7 +89,6 @@ class Diffuse(trn.Transform):
         Args:
             diffuse_property: molecular property to diffuse.
             diffusion_process: the forward diffusion process to use.
-            T: number of discretization steps for the noise schedule.
             output_key: key to store the diffused property.
                         if None, the diffuse_property key is used.
             time_key: key to save the normalized diffusion time step.
@@ -98,7 +96,6 @@ class Diffuse(trn.Transform):
         super().__init__()
         self.diffuse_property = diffuse_property
         self.diffusion_process = diffusion_process
-        self.T = T
         self.output_key = output_key
         self.time_key = time_key
 
@@ -128,7 +125,13 @@ class Diffuse(trn.Transform):
         }
 
         # sample one training time step for the input molecule.
-        t = torch.randint(0, 1000, size=(1,), dtype=torch.long, device=device)
+        t = torch.randint(
+            0,
+            self.diffusion_process.get_T(),
+            size=(1,),
+            dtype=torch.long,
+            device=device,
+        )
 
         # diffuse the property.
         tmp = self.diffusion_process.diffuse(
@@ -144,7 +147,9 @@ class Diffuse(trn.Transform):
         outputs[self.time_key] = t.repeat(inputs[properties.n_atoms])
 
         # normalize the time step to [0,1].
-        outputs[self.time_key] = outputs[self.time_key].float() / (self.T - 1)
+        outputs[self.time_key] = self.diffusion_process.normalize_time(
+            outputs[self.time_key]
+        )
 
         # update the returned inputs.
         inputs.update(outputs)

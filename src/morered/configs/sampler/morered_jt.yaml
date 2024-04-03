@@ -1,0 +1,4 @@
+defaults:
+  - morered
+
+_target_: morered.sampling.MoreRedJT

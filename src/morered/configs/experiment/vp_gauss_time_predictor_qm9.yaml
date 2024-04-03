@@ -1,0 +1,5 @@
+# @package _global_
+
+defaults:
+  - vp_gauss_time_predictor
+  - override /data: qm9_filtered
