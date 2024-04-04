@@ -2,12 +2,13 @@
 MoreRed is built on top of [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master), an easily configurable and extendible library for constructing and training neural network models for atomistic systems like molecules. SchNetPack utilizes [PyTorch Lightning](https://www.pytorchlightning.ai/) for model building and [Hydra](https://hydra.cc/) for straightforward management of experimental configurations. While high level usage of the `morered` package to train and use the models described in the original paper does not require knowledge of its underlying dependencies, we recommend users familiarize themselves with Hydra to be able to customize their experimental configurations. Additionally, the tutorials and the documentation provided in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) can be helpful. Below, we explain how to use the `morered` package.
   
 ## Content
-+ [Installation](/README.md##installation)
+
++ [Installation](/README.md##Installation)
 + [Usage](/README.md##Usage)
   + [Training](/README.md###Training)
   + [Molecular relaxation](/README.md###Molecular-relaxation)
   + [Molecular structure generation](/README.md###Molecular-structure-generation)
-+ [How to cite](/README.md###How-to-cite)
++ [How to cite](/README.md##How-to-cite)
 
 ## Installation
 Requirements:
