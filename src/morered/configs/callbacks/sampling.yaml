@@ -7,7 +7,7 @@ sampling:
     sample_prior: True
     store_path: samples
     every_n_batchs: 1
-    every_n_epochs: 200
+    every_n_epochs: 100000 # large number means only at test time
     start_epoch: 1
     log_rmsd: False
     log_validity: True

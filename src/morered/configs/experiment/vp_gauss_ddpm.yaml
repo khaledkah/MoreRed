@@ -37,7 +37,7 @@ trainer:
 
 data:
   batch_size: 128
-  num_workers: 4
+  num_workers: 8
   pin_memory: True
   transforms:
     - _target_: schnetpack.transform.CastTo64
