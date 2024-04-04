@@ -6,13 +6,12 @@
 
 MoreRed is built on top of [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master), an easily configurable and extendible library for constructing and training neural network models for atomistic systems like molecules. SchNetPack utilizes [PyTorch Lightning](https://www.pytorchlightning.ai/) for model building and [Hydra](https://hydra.cc/) for straightforward management of experimental configurations. While high level usage of the `morered` package to train and use the models described in the original paper does not require knowledge of its underlying dependencies, we recommend users familiarize themselves with Hydra to be able to customize their experimental configurations. Additionally, the tutorials and the documentation provided in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) can be helpful. Below, we explain how to use the `morered` package.
 
-## Content
+#### Content
 
 + [Installation](/README.md##Installation)
-+ [Usage](/README.md##Usage)
-  + [Training](/README.md###Training)
-  + [Molecular relaxation](/README.md###Molecular-relaxation)
-  + [Molecular structure generation](/README.md###Molecular-structure-generation)
++ [Training](/README.md##Training)
++ [Molecular relaxation](/README.md##Molecular-relaxation)
++ [Molecular structure generation](/README.md##Molecular-structure-generation)
 + [How to cite](/README.md##How-to-cite)
 
 ## Installation
@@ -36,18 +35,46 @@ Now to install the package, inside the folder `MoreRed` run:
 ```
 pip install .
 ```
-## Usage
-The human-readable and customizable YAML configuration files under `/src/morered/configs` are all you need to train and run customizable experiments with `morered`. They follow the configuration structure used in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master). Here, we explain how to train and use the different models. Besides, under the folder `notebooks` we provide step-by-step Jupyter notebooks explaining the building blocks of MoreRed and how to use the different trained models.
+## Training
+The human-readable and customizable YAML configuration files under `src/morered/configs` are all you need to train and run customizable experiments with `morered`. They follow the configuration structure used in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master). Here, we explain how to train and use the different models. Besides, under the folder `notebooks` we provide step-by-step Jupyter notebooks explaining the building blocks of MoreRed and how to use the different trained models.
 
-### Training
-
-#### MoreRed-JT
-You can train the `MoreRed-JT` model with the default configuration by simply running:
+Installing `morered` using pip adds the new CLI command `mrdtrain`, which can be used to train the different models by running the command:
 ```
-pip install .
+mrdtrain experiment=<my-experiemnt>
 ```
-### Molecular relaxation
+where `<my-experiment>` specifies the experimental configurations to be used. It can either be one of the pre-installed experiments within the package, under `src/morered/configs/experiments`, or a path to a new YAML file created by the user. Detailed instructions on creating custom configurations can be found in the documentation of [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master).
 
-### Molecular structure generation
+In the original paper, three variants of MoreRed were introduced:
+
+- MoreRed-JT:
+  
+You can train the `MoreRed-JT` variant on QM7-X with the default configuration by simply running:
+```
+mrdtrain experiment=vp_gauss_morered_jt
+```
+
+- MoreRed-AS/ITP:
+
+Both variants, `MoreRed-AS` and `MoreRed-ITP`, require a separately trained time predictor and a noise predictor. The noise predictor here is also the usual DDPM model and can be trained using:
+```
+mrdtrain experiment=vp_gauss_ddpm
+```
+The time predictor can be trainined by running:
+```
+mrdtrain experiment=vp_gauss_time_predictor
+```
+To train the models on QM9 instead of QM7-X you can append the suffix `_qm9` to the experiment name, for instance by running:
+```
+mrdtrain experiment=vp_gauss_morered_jt_qm9
+```
+Otherwise you can use the CLI to overwrite the Hydra configurations of the data set by running:
+```
+mrdtrain experiment=vp_gauss_morered_jt data=qm9_filtered
+```
+More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
+
+## Molecular relaxation
+
+## Molecular structure generation
 
 ## How to cite
