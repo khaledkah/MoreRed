@@ -21,7 +21,7 @@ cd MoreRed
 We recommend creating a new Python environment or using conda to avoid incompatibilities with previously installed packages. E.g. if using conda:
 ```
 conda create -n morered python=3.12
-conda activate gschnet
+conda activate morered
 ```
 Now to install the package, inside the folder `MoreRed` run:
 ```
