@@ -12,6 +12,7 @@ MoreRed is built on top of [SchNetPack 2.0](https://github.com/atomistic-machine
 + [Training](/README.md##Training)
 + [Molecular relaxation](/README.md##Molecular-relaxation)
 + [Molecular structure generation](/README.md##Molecular-structure-generation)
++ [Tutorials](/README.md##Tutorials)
 + [How to cite](/README.md##How-to-cite)
 
 ## Installation
@@ -78,5 +79,9 @@ More about overwriting configurations in the CLI can be found in the [SchNetPack
 The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
 
 ## Molecular structure generation
+
+## Tutorials
+Under `notebooks`, we provide different tutorial in the form of Jupyter notebooks:
+  - `diffusion_tutorial.ipynb`: explains how to use the diffusion processes implemented in `morered`.
 
 ## How to cite
