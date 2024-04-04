@@ -35,6 +35,7 @@ Now to install the package, inside the folder `MoreRed` run:
 ```
 pip install .
 ```
+
 ## Training
 The human-readable and customizable YAML configuration files under `src/morered/configs` are all you need to train and run customizable experiments with `morered`. They follow the configuration structure used in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master). Here, we explain how to train and use the different models. Besides, under the folder `notebooks` we provide step-by-step Jupyter notebooks explaining the building blocks of MoreRed and how to use the different trained models.
 
@@ -46,15 +47,13 @@ where `<my-experiment>` specifies the experimental configurations to be used. It
 
 In the original paper, three variants of MoreRed were introduced:
 
-- MoreRed-JT:
-  
+#### MoreRed-JT:
 You can train the `MoreRed-JT` variant on QM7-X with the default configuration by simply running:
 ```
 mrdtrain experiment=vp_gauss_morered_jt
 ```
 
-- MoreRed-AS/ITP:
-
+#### MoreRed-AS/ITP:
 Both variants, `MoreRed-AS` and `MoreRed-ITP`, require a separately trained time predictor and a noise predictor. The noise predictor here is also the usual DDPM model and can be trained using:
 ```
 mrdtrain experiment=vp_gauss_ddpm
@@ -63,6 +62,8 @@ The time predictor can be trainined by running:
 ```
 mrdtrain experiment=vp_gauss_time_predictor
 ```
+
+#### Train on QM9
 To train the models on QM9 instead of QM7-X you can append the suffix `_qm9` to the experiment name, for instance by running:
 ```
 mrdtrain experiment=vp_gauss_morered_jt_qm9
@@ -74,6 +75,7 @@ mrdtrain experiment=vp_gauss_morered_jt data=qm9_filtered
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
 
 ## Molecular relaxation
+The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
 
 ## Molecular structure generation
 
