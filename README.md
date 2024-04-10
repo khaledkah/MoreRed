@@ -1,8 +1,20 @@
 # MoreRed: Molecular Relaxation by Reverse Diffusion
 
-<p align="center">
-  <img src="https://github.com/khaledkah/MoreRed/assets/56682622/5f7a680e-7fd2-434e-b3a8-abc2aad6d39f" width="400" height="330">
-</p>
+<table align="center", border=0>
+  <tr>
+    <td rowspan="2">
+      <img src="https://github.com/khaledkah/MoreRed/assets/56682622/5f7a680e-7fd2-434e-b3a8-abc2aad6d39f" width="500" height="420">
+    </td>
+    <td>
+      <img src="https://github.com/khaledkah/MoreRed/assets/56682622/a02032ba-a3a2-4b20-9658-faada1cbdd73" width="300" height="200">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/khaledkah/MoreRed/assets/56682622/dc18a881-8abc-48c8-a704-e10dc528998c" width="300" height="200">
+    </td>
+  </tr>
+</table>
 
 MoreRed is built on top of [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master), an easily configurable and extendible library for constructing and training neural network models for atomistic systems like molecules. SchNetPack utilizes [PyTorch Lightning](https://www.pytorchlightning.ai/) for model building and [Hydra](https://hydra.cc/) for straightforward management of experimental configurations. While high level usage of the `morered` package to train and use the models described in the original paper does not require knowledge of its underlying dependencies, we recommend users familiarize themselves with Hydra to be able to customize their experimental configurations. Additionally, the tutorials and the documentation provided in [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) can be helpful. Below, we explain how to use the `morered` package.
 
