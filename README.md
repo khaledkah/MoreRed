@@ -3,7 +3,7 @@
 <table align="center", border=0>
   <tr>
     <td rowspan="2">
-      <img src="https://github.com/khaledkah/MoreRed/assets/56682622/5f7a680e-7fd2-434e-b3a8-abc2aad6d39f" width="500" height="420">
+      <img src="https://github.com/khaledkah/MoreRed/assets/56682622/5f7a680e-7fd2-434e-b3a8-abc2aad6d39f" width="550" height="420">
     </td>
     <td>
       <img src="https://github.com/khaledkah/MoreRed/assets/56682622/a02032ba-a3a2-4b20-9658-faada1cbdd73" width="300" height="200">
