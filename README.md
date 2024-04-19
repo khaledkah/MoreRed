@@ -92,7 +92,7 @@ mrdtrain experiment=vp_gauss_morered_jt data=qm9_filtered
 In order to use your own config files, you can define the configurations in yaml files and refer to the directory containing these files:
 
 ```
-mrdtrain --config-dir==<path/to/my_configs> experiment=<my_experiment>
+mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
 
 ```
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
