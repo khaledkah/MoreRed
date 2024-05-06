@@ -311,9 +311,10 @@ def check_validity(
         stable_molecules.append(stable_at.all())
 
         # check if molecule is stable without hydrogen
-        stable_at[Z == 1] = True
-        stable_atoms_wo_h.append(stable_at)
-        stable_molecules_wo_h.append(stable_at.all())
+        stable_at_wo_h = stable_at.copy()
+        stable_at_wo_h[Z == 1] = True
+        stable_atoms_wo_h.append(stable_at_wo_h)
+        stable_molecules_wo_h.append(stable_at_wo_h.all())
 
         # check if ALL the molecule is connected
         # using the exponent of the adjacency matrix trick
