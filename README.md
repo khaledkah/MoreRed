@@ -1,6 +1,6 @@
 # MoreRed: Molecular Relaxation by Reverse Diffusion
 
-[MoreRed](https://arxiv.org/abs/2404.10935) is a generative diffusion model that can generate new structures or denoise arbitrarily noisy ones. Unlike previous methods, which require labeled equilibrium and non-equilibrium structures, MoreRed is trained using **exclusively unlabeled equilibrium structures**. Despite this, it effectively relaxes non-equilibrium structures, achieving competitive results with **100 times less data**, exhibiting better robustness to the noise level in the input and reducing computation time during relaxation.
+[MoreRed](https://arxiv.org/abs/2404.10935) is a generative diffusion model that can generate new structures or denoise arbitrarily noisy ones. Unlike previous geometry relaxation methods, which require labeled equilibrium and non-equilibrium structures, MoreRed is trained using **exclusively unlabeled equilibrium structures**. Despite this, it effectively relaxes non-equilibrium structures, achieving competitive results with **100 times less data**, exhibiting better robustness to the noise level in the input and reducing computation time during relaxation.
 
 <table align="center", border=0>
   <tr>
@@ -71,11 +71,11 @@ mrdtrain experiment=vp_gauss_morered_jt
 ```
 
 #### MoreRed-AS/ITP:
-Both variants, `MoreRed-AS` and `MoreRed-ITP`, require a separately trained time predictor and a noise predictor. The noise predictor here is also the usual DDPM model and can be trained using:
+Both variants, `MoreRed-AS` and `MoreRed-ITP`, require separately trained time and noise predictors. The noise predictor here is also the usual DDPM model and can be trained using:
 ```
 mrdtrain experiment=vp_gauss_ddpm
 ```
-The time predictor can be trainined by running:
+The time predictor can be trained by running:
 ```
 mrdtrain experiment=vp_gauss_time_predictor
 ```
@@ -85,13 +85,13 @@ To train the models on QM9 instead of QM7-X you can append the suffix `_qm9` to 
 ```
 mrdtrain experiment=vp_gauss_morered_jt_qm9
 ```
-Otherwise you can use the CLI to overwrite the Hydra configurations of the data set by running:
+Otherwise, you can use the CLI to overwrite the Hydra configurations of the data set by running:
 ```
 mrdtrain experiment=vp_gauss_morered_jt data=qm9_filtered
 ```
 
-#### Use your own config files
-In order to use your own config files, you can define the configurations in yaml files and refer to the directory containing these files:
+#### Use your config files
+To use your config files, you can define the configurations in YAML files and refer to the directory containing these files:
 
 ```
 mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
@@ -99,12 +99,12 @@ mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
 ```
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
 
-## Molecular relaxation / generation
+## Molecular relaxation/generation
 The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
-Under `src/morered/sampling`, you can find ready-to-use python classes that implements the different samplers: `MoreRed-ITP`, `MoreRed-ITP`, `MoreRed-ITP`, `DDPM`. The same classes can be used for denoising/relaxation as well as new structure generation.
+Under `src/morered/sampling`, you can find ready-to-use Python classes that implement the different samplers: `MoreRed-ITP`, `MoreRed-JT`, `MoreRed-AS`, `DDPM`. The same classes can be used for denoising/relaxation of noisy structures as well as for new structure generation.
 
 ## Tutorials
-Under `notebooks`, we provide different tutorial in the form of Jupyter notebooks:
+Under `notebooks`, we provide different tutorials in the form of Jupyter notebooks:
   - `diffusion_tutorial.ipynb`: explains how to use the diffusion processes implemented in `morered`.
 
 ## How to cite
