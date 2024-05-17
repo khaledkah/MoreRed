@@ -1,5 +1,7 @@
 # MoreRed: Molecular Relaxation by Reverse Diffusion
 
+[MoreRed](https://arxiv.org/abs/2404.10935) is a generative diffusion model that can generate new structures or denoise arbitrarily noisy ones. Unlike previous methods, which require labeled equilibrium and non-equilibrium structures, MoreRed is trained using **exclusively unlabeled equilibrium structures**. Despite this, it effectively relaxes non-equilibrium structures, achieving competitive results with **100 times less data**, exhibiting better robustness to the noise level in the input and reducing computation time during relaxation.
+
 <table align="center", border=0>
   <tr>
     <td rowspan="2">
@@ -97,13 +99,24 @@ mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
 ```
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
 
-## Molecular relaxation
+## Molecular relaxation / generation
 The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
-
-## Molecular structure generation
+Under `src/morered/sampling`, you can find ready-to-use python classes that implements the different samplers: `MoreRed-ITP`, `MoreRed-ITP`, `MoreRed-ITP`, `DDPM`. The same classes can be used for denoising/relaxation as well as new structure generation.
 
 ## Tutorials
 Under `notebooks`, we provide different tutorial in the form of Jupyter notebooks:
   - `diffusion_tutorial.ipynb`: explains how to use the diffusion processes implemented in `morered`.
 
 ## How to cite
+if you use MoreRed in your research, please cite the corresponding publication:
+
+Kahouli, K., Hessmann, S. S. P., Müller, K. R., Nakajima, S., Gugler, S., & Gebauer, N. W. A. (2024). Molecular relaxation by reverse diffusion with time step prediction. arXiv preprint arXiv:2404.10935.
+
+    @misc{kahouli2024molecular,
+          title={Molecular relaxation by reverse diffusion with time step prediction}, 
+          author={Khaled Kahouli and Stefaan Simon Pierre Hessmann and Klaus-Robert Müller and Shinichi Nakajima and Stefan Gugler and Niklas Wolf Andreas Gebauer},
+          year={2024},
+          eprint={2404.10935},
+          archivePrefix={arXiv},
+          primaryClass={physics.chem-ph}
+    }
