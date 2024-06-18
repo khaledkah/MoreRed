@@ -259,6 +259,11 @@ class MoreRedAS(MoreRed):
             inputs: input data for the time predictor.
             iter: the current iteration of the reverse process.
         """
+        # cast input to float for the time predictor
+        for key, val in inputs.items():
+            if val.dtype == torch.float64:
+                inputs[key] = val.float()
+
         # predict the time steps
         time_steps = self.time_predictor(inputs)[self.time_pred_key].detach()
 
@@ -287,11 +292,6 @@ class MoreRedAS(MoreRed):
             inputs: input data for noise prediction.
             iter: the current iteration of the reverse process.
         """
-        # cast input to float for the denoiser
-        for key, val in inputs.items():
-            if val.dtype == torch.float64:
-                inputs[key] = val.float()
-
         # get the current time steps
         time_steps = self.get_time_steps(inputs, iter)
 
@@ -299,6 +299,11 @@ class MoreRedAS(MoreRed):
         # We first unnormlize the time steps to get a binned step as during training
         inputs[self.time_key] = self.diffusion_process.normalize_time(time_steps)
         inputs[self.time_key] = inputs[self.time_key][inputs[properties.idx_m]]
+
+        # cast input to float for the denoiser
+        for key, val in inputs.items():
+            if val.dtype == torch.float64:
+                inputs[key] = val.float()
 
         # fetch the noise prediction
         model_out = self.denoiser(inputs)
