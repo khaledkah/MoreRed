@@ -336,6 +336,6 @@ class MoreRedITP(MoreRedAS):
 
         else:
             # get the current time steps from the predicted initial time steps
-            time_steps = self._init_time_steps - iter
+            time_steps = torch.clamp(self._init_time_steps - iter, min=0)
 
         return time_steps
