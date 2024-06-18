@@ -226,15 +226,19 @@ class MoreRedAS(MoreRed):
 
     def __init__(
         self,
+        diffusion_process: DiffusionProcess,
+        denoiser: Union[str, nn.Module],
         time_predictor: Union[str, nn.Module],
         **kwargs,
     ):
         """
         Args:
+            diffusion_process: The diffusion processe to sample the target property.
+            denoiser: denoiser or path to denoiser to use for the reverse process.
             time_predictor: Seperate diffusion time step predictor or path to the model.
                             Used for 'MoreRed-ITP' and 'MoreRed-AS'.
         """
-        super().__init__(**kwargs)
+        super().__init__(diffusion_process, denoiser, **kwargs)
 
         self.time_predictor = time_predictor
 
