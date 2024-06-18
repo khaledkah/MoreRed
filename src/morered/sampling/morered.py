@@ -226,6 +226,8 @@ class MoreRedAS(MoreRed):
 
     def __init__(
         self,
+        diffusion_process: DiffusionProcess,
+        denoiser: Union[str, nn.Module],
         time_predictor: Union[str, nn.Module],
         **kwargs,
     ):
@@ -234,7 +236,7 @@ class MoreRedAS(MoreRed):
             time_predictor: Seperate diffusion time step predictor or path to the model.
                             Used for 'MoreRed-ITP' and 'MoreRed-AS'.
         """
-        super().__init__(**kwargs)
+        super().__init__(diffusion_process, denoiser, **kwargs)
 
         self.time_predictor = time_predictor
 
