@@ -101,7 +101,7 @@ mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
 
 ## Pre-trained models
-Under the folder `models`, you can find models trained on both QM9 and Qm7-X datasets.
+Under the folder `models`, you can find models trained on both QM9 and Qm7-X datasets. You can load the models using `torch.load()` command. Besides, the tutorial notebooks provide details on how to use the models.
 
 ## Molecular relaxation/generation
 The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
@@ -109,7 +109,7 @@ Under `src/morered/sampling`, you can find ready-to-use Python classes that impl
 
 ## Tutorials
 Under `notebooks`, we provide different tutorials in the form of Jupyter notebooks:
-  - `diffusion_tutorial.ipynb`: explains how to use the diffusion processes implemented in `morered`.
+  - `diffusion_tutorial.ipynb`: explains how to use the diffusion models and samplers implemented in `morered`. In the notebook, the DDPM sampler is used as an example. Yet it can be replaced by any other implemented sampler class (`MoreRed-ITP`, `MoreRed-JT`, `MoreRed-AS`) in `src/morered/sampling`. 
 
 ## How to cite
 if you use MoreRed in your research, please cite the corresponding publication:
