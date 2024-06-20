@@ -26,6 +26,7 @@ MoreRed is built on top of [SchNetPack 2.0](https://github.com/atomistic-machine
 
 + [Installation](/README.md##Installation)
 + [Training](/README.md##Training)
++ [Pre-trained models](/README.md##Pre-trained-models)
 + [Molecular relaxation](/README.md##Molecular-relaxation)
 + [Molecular structure generation](/README.md##Molecular-structure-generation)
 + [Tutorials](/README.md##Tutorials)
@@ -98,6 +99,9 @@ mrdtrain --config-dir=<path/to/my_configs> experiment=<my_experiment>
 
 ```
 More about overwriting configurations in the CLI can be found in the [SchNetPack 2.0](https://github.com/atomistic-machine-learning/schnetpack/tree/master) documentation. 
+
+## Pre-trained models
+Under the folder `models`, you can find models trained on both QM9 and Qm7-X datasets.
 
 ## Molecular relaxation/generation
 The notebook `notebooks/denoising_tutorial.ipynb` explains how the trained models can be used for denoising.
