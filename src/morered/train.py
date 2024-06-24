@@ -3,12 +3,14 @@
 
 import logging
 import os
+import random
 import socket
 import tempfile
 import uuid
 from typing import List
 
 import hydra
+import numpy as np
 import schnetpack as spk
 import torch
 from omegaconf import DictConfig, OmegaConf
@@ -99,7 +101,8 @@ def train(config: DictConfig):
         seed_everything(config.seed, workers=True)
     else:
         log.info("Seed randomly...")
-        seed_everything(workers=True)
+        seed = random.randint(np.iinfo(np.uint32).min, np.iinfo(np.uint32).max)
+        seed_everything(seed, workers=True)
 
     if not os.path.exists(config.run.data_dir):
         os.makedirs(config.run.data_dir)
