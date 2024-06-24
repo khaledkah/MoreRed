@@ -79,6 +79,7 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 notebooks/*
+notebooks/*_local.ipynb
 !notebooks/*.ipynb
 !notebooks/*.py
 !notebooks/scripts/*.py
