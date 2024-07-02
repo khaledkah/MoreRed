@@ -57,6 +57,7 @@ class MoreRed(Sampler):
         """
         raise NotImplementedError
 
+    @torch.no_grad()
     def denoise(
         self,
         inputs: Dict[str, torch.Tensor],
@@ -179,6 +180,7 @@ class MoreRedJT(MoreRed):
     Implements the adaptive MoreRed-JT sampler/denoiser proposed by Kahouli et al. 2024
     """
 
+    @torch.no_grad()
     def inference_step(
         self, inputs: Dict[str, torch.Tensor], iter: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -249,6 +251,7 @@ class MoreRedAS(MoreRed):
         else:
             self.time_predictor = self.time_predictor.to(self.device).eval()
 
+    @torch.no_grad()
     def get_time_steps(
         self, inputs: Dict[str, torch.Tensor], iter: int
     ) -> torch.Tensor:
@@ -281,6 +284,7 @@ class MoreRedAS(MoreRed):
 
         return time_steps
 
+    @torch.no_grad()
     def inference_step(
         self, inputs: Dict[str, torch.Tensor], iter: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -316,7 +320,7 @@ class MoreRedITP(MoreRedAS):
     """
     Implements the MoreRed-ITP sampler/denoiser proposed by Kahouli et al. 2024
     """
-
+    @torch.no_grad()
     def get_time_steps(
         self, inputs: Dict[str, torch.Tensor], iter: int
     ) -> torch.Tensor:
