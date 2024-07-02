@@ -37,6 +37,7 @@ class DDPM(Sampler):
         self.time_key = time_key
         self.noise_pred_key = noise_pred_key
 
+    @torch.no_grad()
     def inference_step(
         self, inputs: Dict[str, torch.Tensor], iter: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -74,6 +75,7 @@ class DDPM(Sampler):
 
         return time_steps, noise_pred
 
+    @torch.no_grad()
     def denoise(
         self,
         inputs: Dict[str, torch.Tensor],
