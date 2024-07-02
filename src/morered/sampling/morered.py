@@ -320,6 +320,7 @@ class MoreRedITP(MoreRedAS):
     """
     Implements the MoreRed-ITP sampler/denoiser proposed by Kahouli et al. 2024
     """
+
     @torch.no_grad()
     def get_time_steps(
         self, inputs: Dict[str, torch.Tensor], iter: int
