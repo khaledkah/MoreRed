@@ -126,6 +126,6 @@ Kahouli, K., Hessmann, S. S. P., Müller, K. R., Nakajima, S., Gugler, S., & Geb
       title={Molecular relaxation by reverse diffusion with time step prediction},
       author={Kahouli, Khaled and Hessmann, Stefaan Simon Pierre and M{\"u}ller, Klaus-Robert and Nakajima, Shinichi and Gugler, Stefan and Gebauer, Niklas Wolf Andreas},
       journal={arXiv preprint arXiv:2404.10935},
-      year={2024}
+      year={2024},
       url={https://arxiv.org/abs/2404.10935}
     }
