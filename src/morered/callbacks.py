@@ -22,7 +22,7 @@ class OutputWriterCallback(Callback):
         self,
         output_dir: str,
         only_exploding_outputs: bool = False,
-        loss_threshold: float = 1e4,
+        loss_threshold: float = 1e10,
     ):
         """
         Args:
