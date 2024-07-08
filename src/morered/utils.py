@@ -59,8 +59,10 @@ def scatter_mean(
     sum = tmp.index_add_(dim, idx_m, systems)
     if len(sum.shape) == 1:
         mean = sum / n_atoms
-    else:
+    elif len(sum.shape) == 2:
         mean = sum / n_atoms.unsqueeze(-1)
+    else:
+        mean = sum / n_atoms.unsqueeze(-1).unsqueeze(-1)
     return mean
 
 
