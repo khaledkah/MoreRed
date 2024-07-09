@@ -8,7 +8,30 @@ from schnetpack import properties
 from morered.processes.base import DiffusionProcess
 from morered.utils import batch_center_systems
 
-__all__ = ["BatchSubtractCenterOfMass", "Diffuse"]
+__all__ = ["AllToAllNeighborList", "BatchSubtractCenterOfMass", "Diffuse"]
+
+
+class AllToAllNeighborList(trn.NeighborListTransform):
+    """
+    Calculate a full neighbor list for all atoms in the system.
+    Faster than other methods and useful for small systems.
+    """
+
+    def __init__(self):
+        # pass dummy large cutoff as all neighbors are connceted
+        super().__init__(cutoff=1e8)
+
+    def _build_neighbor_list(self, Z, positions, cell, pbc, cutoff):
+        n_atoms = Z.shape[0]
+        idx_i = torch.arange(n_atoms).repeat_interleave(n_atoms)
+        idx_j = torch.arange(n_atoms).repeat(n_atoms)
+
+        mask = idx_i != idx_j
+        idx_i = idx_i[mask]
+        idx_j = idx_j[mask]
+
+        offset = torch.zeros(n_atoms * (n_atoms - 1), 3, dtype=positions.dtype)
+        return idx_i, idx_j, offset
 
 
 class BatchSubtractCenterOfMass(trn.Transform):
