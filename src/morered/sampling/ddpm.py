@@ -118,7 +118,7 @@ class DDPM(Sampler):
 
         # set all atoms as neighbors and compute neighbors only once before starting.
         if not self.recompute_neighbors:
-            batch = compute_neighbors(batch, cutoff=9999999.0, device=self.device)
+            batch = compute_neighbors(batch, fully_connected=True, device=self.device)
 
         # history of the reverse steps
         hist = []

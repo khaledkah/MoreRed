@@ -4,14 +4,15 @@ import pickle
 from typing import Dict, Optional
 
 import numpy as np
+import schnetpack.transform as trn
 import torch
 from ase import Atoms, build
 from ase.data import chemical_symbols, covalent_radii
-from tqdm import tqdm
-
-import schnetpack.transform as trn
 from schnetpack import properties
 from schnetpack.data.loader import _atoms_collate_fn
+from tqdm import tqdm
+
+import morered as mrd
 from morered.bonds import allowed_bonds_dict, bonds1, bonds2, bonds3
 
 
@@ -70,6 +71,7 @@ def compute_neighbors(
     old_batch,
     neighbor_list_trn: Optional[trn.Transform] = None,
     cutoff=5.0,
+    fully_connected=False,
     additional_keys=[],
     device=None,
 ):
@@ -80,6 +82,8 @@ def compute_neighbors(
         old_batch: batch of systems to compute the neighbors for
         neighbor_list_trn: transform to compute the neighbors
         cutoff: cutoff radius for the neighbor list
+        fully_connected: if True, all atoms are connected to each other.
+                            Ignores the cutoff.
         additional_keys: additional keys to be included in the new batch
         device: Pytorch device
     """
@@ -90,7 +94,12 @@ def compute_neighbors(
     f_dtype = old_batch[properties.R].dtype
 
     # initialize the neighbor list transform
-    neighbors_calculator = neighbor_list_trn or trn.MatScipyNeighborList(cutoff=cutoff)
+    if fully_connected:
+        neighbors_calculator = mrd.transform.AllToAllNeighborList()
+    else:
+        neighbors_calculator = neighbor_list_trn or trn.MatScipyNeighborList(
+            cutoff=cutoff
+        )
 
     batch = []
 

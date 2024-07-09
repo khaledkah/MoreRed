@@ -48,8 +48,7 @@ data:
       diffusion_process: ${globals.diffusion_process}
       time_key: ${globals.time_target_key}
 
-    - _target_: schnetpack.transform.MatScipyNeighborList
-      cutoff: ${globals.cutoff}
+    - _target_: morered.transform.AllToAllNeighborList
     - _target_: schnetpack.transform.CastTo32
 
 model:
