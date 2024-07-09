@@ -57,6 +57,7 @@ class OutputWriterCallback(Callback):
 
         # check if loss is exploding
         if (
+            key not in outputs or
             (outputs[key] > self.loss_threshold).any()
             or torch.isnan(outputs[key]).any()
             or torch.isinf(outputs[key]).any()
