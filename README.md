@@ -121,11 +121,17 @@ Under `notebooks`, we provide different tutorials in the form of Jupyter noteboo
 if you use MoreRed in your research, please cite the corresponding publication:
 
 Kahouli, K., Hessmann, S. S. P., Mueller, K.-R., Nakajima, S., Gugler, S., & Gebauer, N. W. A. (2024). Molecular relaxation by reverse diffusion with time step prediction. Machine Learning: Science and Technology. [https://doi.org/10.1088/2632-2153/ad652c](https://doi.org/10.1088/2632-2153/ad652c).  
-  
+
     @article{kahouli2024morered,
-    	author={Kahouli, Khaled and Hessmann, Stefaan Simon Pierre and M{\"u}ller, Klaus-Robert and Nakajima, Shinichi and Gugler, Stefan and Gebauer, Niklas Wolf Andreas},
-    	title={Molecular relaxation by reverse diffusion with time step prediction},
-    	journal={Machine Learning: Science and Technology},
-    	url={https://doi.org/10.1088/2632-2153/ad652c},
-    	year={2024}
+      doi = {10.1088/2632-2153/ad652c},
+      url = {https://dx.doi.org/10.1088/2632-2153/ad652c},
+      year = {2024},
+      month = {aug},
+      publisher = {IOP Publishing},
+      volume = {5},
+      number = {3},
+      pages = {035038},
+      author = {Khaled Kahouli and Stefaan Simon Pierre Hessmann and Klaus-Robert Müller and Shinichi Nakajima and Stefan Gugler and Niklas Wolf Andreas Gebauer},
+      title = {Molecular relaxation by reverse diffusion with time step prediction},
+      journal = {Machine Learning: Science and Technology},
     }
