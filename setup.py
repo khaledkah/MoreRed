@@ -32,7 +32,7 @@ setup(
     python_requires=">=3.8",
     include_package_data=True,
     package_data={"": ["configs/**/*.yaml"]},
-    install_requires=["schnetpack>=2.0.3", "progressbar"],
+    install_requires=["schnetpack==2.0.3", "progressbar"],
     license="MIT",
     description="MoreRed - Molecular Relaxation with Reverse Diffusion.",
     long_description="""
