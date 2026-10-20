@@ -129,7 +129,7 @@ Kahouli, K., Hessmann, S. S. P., Müller, K.-R., Nakajima, S., Gugler, S., & Geb
       volume = {5},
       number = {3},
       pages = {035038},
-      author = {Khaled Kahouli and Stefaan Simon Pierre Hessmann and Klaus-Robert Müller and Shinichi Nakajima and Stefan Gugler and Niklas Wolf Andreas Gebauer},
+      author = {Khaled Kahouli and Stefaan Simon Pierre Hessmann and Klaus-Robert M{\"u}ller and Shinichi Nakajima and Stefan Gugler and Niklas Wolf Andreas Gebauer},
       title = {Molecular relaxation by reverse diffusion with time step prediction},
       journal = {Machine Learning: Science and Technology},
     }
